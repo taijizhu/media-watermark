@@ -8,31 +8,34 @@
 
 import UIKit
 
-public enum MediaElementType {
+@objc public enum MediaElementType : Int {
     case image
     case view
     case text
 }
 
-public class MediaElement {
-    public var frame: CGRect = .zero
-    public var type: MediaElementType = .image
+@objc public class MediaElement : NSObject {
+    @objc public var frame: CGRect = .zero
+    @objc public var type: MediaElementType = .image
     
     public private(set) var contentImage: UIImage! = nil
     public private(set) var contentView: UIView! = nil
     public private(set) var contentText: NSAttributedString! = nil
     
-    public init(image: UIImage) {
+    @objc public init(image: UIImage) {
+        super.init()
         contentImage = image
         type = .image
     }
     
-    public init(view: UIView) {
+    @objc public init(view: UIView) {
+        super.init()
         contentView = view
         type = .view
     }
     
-    public init(text: NSAttributedString) {
+    @objc public init(text: NSAttributedString) {
+        super.init()
         contentText = text
         type = .text
     }

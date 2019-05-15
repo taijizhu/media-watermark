@@ -9,24 +9,29 @@
 import UIKit
 import AVFoundation
 
-enum MediaItemType {
+@objc enum MediaItemType : Int {
     case image
     case video
 }
 
-public struct MediaProcessResult {
+@objc public class MediaProcessResult : NSObject {
     public var processedUrl: URL?
     public var image: UIImage?
+    init(processedUrl: URL?, image: UIImage?) {
+        super.init()
+        self.processedUrl = processedUrl
+        self.image = image
+    }
 }
 
 public typealias ProcessCompletionHandler = ((_ result: MediaProcessResult, _ error: Error?) -> ())
 
-public class MediaItem {
-    var type: MediaItemType {
+@objc public class MediaItem : NSObject {
+    @objc var type: MediaItemType {
         return sourceAsset != nil ? .video : .image
     }
     
-    public var size: CGSize {
+    @objc public var size: CGSize {
         get {
             if sourceAsset != nil {
                 if let track = AVAsset(url: sourceAsset.url).tracks(withMediaType: AVMediaType.video).first {
@@ -49,15 +54,18 @@ public class MediaItem {
     public private(set) var filter: MediaFilter! = nil
 
     // MARK: - init
-    public init(asset: AVURLAsset) {
+    @objc public init(asset: AVURLAsset) {
+        super.init()
         sourceAsset = asset
     }
     
-    public init(image: UIImage) {
+    @objc public init(image: UIImage) {
+        super.init()
         sourceImage = image
     }
     
-    public init?(url: URL) {
+    @objc public init?(url: URL) {
+        super.init()
         if urlHasImageExtension(url: url) {
             do {
                 let data = try Data(contentsOf: url)
@@ -71,20 +79,20 @@ public class MediaItem {
     }
     
     // MARK: - elements
-    public func add(element: MediaElement) {
+    @objc public func add(element: MediaElement) {
         mediaElements.append(element)
     }
     
-    public func add(elements: [MediaElement]) {
+    @objc public func add(elements: [MediaElement]) {
         mediaElements.append(contentsOf: elements)
     }
     
-    public func removeAllElements() {
+    @objc public func removeAllElements() {
         mediaElements.removeAll()
     }
     
     // MARK: - filters
-    public func applyFilter(mediaFilter: MediaFilter) {
+    @objc public func applyFilter(mediaFilter: MediaFilter) {
         filter = mediaFilter
     }
     
