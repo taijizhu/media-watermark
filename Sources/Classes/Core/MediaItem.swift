@@ -17,7 +17,12 @@ import AVFoundation
 @objc public class MediaProcessResult : NSObject {
     @objc public var processedUrl: URL?
     @objc public var image: UIImage?
-    init(processedUrl: URL?, image: UIImage?) {
+    // MARK: - elements
+    @objc public  func resultImage() -> UIImage? {
+        return self.image
+    }
+  
+    @objc init(processedUrl: URL?, image: UIImage?) {
         super.init()
         self.processedUrl = processedUrl
         self.image = image
